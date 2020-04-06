@@ -125,9 +125,11 @@ app.post("/api/persons", (request, response, next) => {
         })
         .catch(error => next(error))
     } else { */
+  /*
   if (body.name === undefined) {
     return response.status(400).json({ error: "name missing" })
   }
+  */
 
   const person = new Person({
     name: body.name,
@@ -189,6 +191,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === "CastError" /* && error.kind == "ObjectId" */) {
     return response.status(400).send({ error: "malformatted id" })
+  } else if (error.name === "ValidationError") {
+    return response.status(400).send(error)
   }
 
   next(error)
